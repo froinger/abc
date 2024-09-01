@@ -1,0 +1,17 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/mycss.css') }}">
+</head>
+<body>
+    <div class="title">
+        <h1 class="artistic-text ">爬爬，用数据说话,<br>
+        让你更了解求职行情</h1>
+    <button onclick="window.location.href='/nav'" class="start">开始</button>
+    </div>
+    <!-- 创建按钮，当点击时调用/run_python_script路由 -->
+</body>
+</html>
