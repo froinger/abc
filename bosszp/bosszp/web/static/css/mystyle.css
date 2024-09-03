@@ -101,3 +101,20 @@ tbody *:hover {
     font-size: larger;
     background-color: #7777c1;
 }
+
+/*#linechart-container {*/
+/*    width: 100%;   !* 设置宽度为父元素的100% *!*/
+/*    height: 400px; !* 设置固定的高度，例如400px *!*/
+/*}*/
+
+.inner_left{
+    float:left;
+    width:50%;
+    height:400px;
+}
+
+.inner_right{
+    float:right;
+    width:50%;
+    height:400px;
+}

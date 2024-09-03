@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from bosszp.web.dbutils import DBUtils
+from bosszp.bosszp.web.dbutils import DBUtils
 import json
 
 app = Flask(__name__)
@@ -10,7 +10,7 @@ def get_db_conn():
     获取数据库连接
     :return: db_conn 数据库连接对象
     """
-    return DBUtils('117.72.35.68', 'root', 'UiiWz5mAdmiygwAbAFem', 'spider_db')
+    return DBUtils(host='117.72.35.68', user='player', password='BvXXbGtR4uFxCBrMmbfN', db='spider_db')
 
 
 def msg(status, data='未加载到数据'):
@@ -53,7 +53,7 @@ def get_job_info():
     """
     db_conn = get_db_conn()
     results = db_conn.get_all(
-        sql_str="SELECT city,district,COUNT(1) as num FROM t_boss_zp_info GROUP BY city,district")
+        sql_str="SELECT city,district,COUNT(1) as num FROM t_boss_zp_info GROUP BY city,district LIMIT 20")
     # {"city":"北京","info":[{"district":"朝阳区","num":27},{"海淀区":43}]}
 
     if results is None or len(results) == 0:
@@ -79,7 +79,7 @@ def get_job_num():
     :return:
     """
     db_conn = get_db_conn()
-    results = db_conn.get_all(sql_str="SELECT city,COUNT(1) num FROM t_boss_zp_info GROUP BY city")
+    results = db_conn.get_all(sql_str="SELECT city,COUNT(1) as num FROM t_boss_zp_info GROUP BY city having num>20 ORDER BY num DESC ")
     if results is None or len(results) == 0:
         return msg(201)
     if results is None or len(results) == 0:
@@ -143,7 +143,36 @@ def getorder():
                      'name': r[0],
                      'num': r[1]})
     return msg(200, data)
+@app.route('/getline')
+def getline():
+    db_conn = get_db_conn()
+    results = db_conn.get_all(
+        sql_str="SELECT t.job_education, AVG(t.salary_lower) as avg_salary FROM t_boss_zp_info t GROUP BY t.job_education ORDER BY avg_salary DESC LIMIT 7"
+        # sql_str="SELECT t.job_education FROM t_boss_zp_info t  LIMIT 7"
+        # sql_str="SELECT t.job_company,COUNT(1) FROM t_boss_zp_info t GROUP BY t.job_company ORDER BY COUNT(1) DESC LIMIT 10"
+    )
+    if results is None or len(results) == 0:
+        return msg(201)  # 没有数据，返回201状态码
+    data = []
+    for i, r in enumerate(results):
+        data.append({'id': i + 1,
+                     'education_level': r[0],
+                     'average_salary': r[1]})
+    return msg(200, data)  # 返回200状态码和数据
 
-
+@app.route('/get3D')
+def get3D():
+    db_conn = get_db_conn()
+    results = db_conn.get_all(
+        sql_str="SELECT t.province, AVG(t.salary_lower) as avg_salary FROM t_boss_zp_info t GROUP BY t.province ORDER BY avg_salary DESC "
+    )
+    if results is None or len(results) == 0:
+        return msg(201)  # 没有数据，返回201状态码
+    data = []
+    for i, r in enumerate(results):
+        data.append({'id': i + 1,
+                     'province': r[0],
+                     'average_salary': r[1]})
+    return msg(200, data)  # 返回200状态码和数据
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

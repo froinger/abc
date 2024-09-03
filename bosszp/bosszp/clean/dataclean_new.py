@@ -12,7 +12,17 @@ all_city_zp_df.drop_duplicates(inplace=True)
 all_city_zp_area_df = all_city_zp_df['job_location'].str.split('·', expand=True)
 all_city_zp_area_df = all_city_zp_area_df.rename(columns={0: "city", 1: "district", 2: "street"})
 
+def salary_init(x):
+    if x[-3:]=='元/天':
+        return None
+    if x[-3:]=='元/月':
+        return None
+    if x[-3:]=='元/时':
+        return None
+    else:
+        return x;
 # 对`薪资`字段进行预处理。要求：30-60K·15薪 --> 最低：30，最高：60
+all_city_zp_df['job_salary_range'] = all_city_zp_df['job_salary_range'].apply(lambda x: salary_init(x))
 all_city_zp_salary_df = all_city_zp_df['job_salary_range'].str.split('K', expand=True)[0].str.split('-', expand=True)
 all_city_zp_salary_df = all_city_zp_salary_df.rename(columns={0: 'salary_lower', 1: 'salary_high'})
 
@@ -46,9 +56,9 @@ def fun_com_size(x):
 # 对`岗位福利`字段进行预处理。要求：将描述中的中文'，'（逗号）,替换成英文','（逗号）
 all_city_zp_df['job_welfare'] = all_city_zp_df['job_welfare'].str.replace('，', ',')
 
-#对‘招收人数’字段进行预处理。
-all_city_zp_salary_df = all_city_zp_df['job_scale'].str.split('人', expand=True)[0].str.split('-', expand=True)
-all_city_zp_salary_df = all_city_zp_salary_df.rename(columns={0: 'scale_lower', 1: 'scale_high'})
+# #对‘招收人数’字段进行预处理。
+# all_city_zp_scale_df = all_city_zp_df['job_scale'].str.split('人', expand=True)[0].str.split('-', expand=True)
+# all_city_zp_scale_df = all_city_zp_scale_df.rename(columns={0: 'scale_lower', 1: 'scale_high'})
 
 # 合并所有数据集
 clean_all_city_zp_df = pd.concat([all_city_zp_df, all_city_zp_salary_df, all_city_zp_area_df], axis=1)
@@ -56,7 +66,6 @@ clean_all_city_zp_df = pd.concat([all_city_zp_df, all_city_zp_salary_df, all_cit
 # 删除冗余列
 clean_all_city_zp_df.drop('job_location', axis=1, inplace=True)  # 删除原区域
 clean_all_city_zp_df.drop('job_salary_range', axis=1, inplace=True)  # 删除原薪资
-clean_all_city_zp_df.drop('job_scale',axis=1,inplace=True)  #删除原人数
 
 # 对缺失值所在行进行清洗。
 clean_all_city_zp_df.dropna(axis=0, how='any', inplace=True)
@@ -65,5 +74,6 @@ clean_all_city_zp_df.drop(axis=0,
                           inplace=True)
 # 将处理后的数据保存到 MySQL 数据库
 engine = create_engine('mysql+pymysql://player:BvXXbGtR4uFxCBrMmbfN@117.72.35.68:3306/spider_db?charset=utf8')
+# engine = create_engine('mysql+pymysql://root:123456789@localhost/spider_db?charset=utf8')
 clean_all_city_zp_df.to_sql('t_boss_zp_info', con=engine, if_exists='replace')
 logging.info("Write to MySQL Successfully!")

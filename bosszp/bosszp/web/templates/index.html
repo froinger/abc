@@ -7,19 +7,26 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <link rel="icon" href="{{ url_for('static', filename = 'img/favicon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename = 'css/mystyle.css') }}">
-    <script src="{{ url_for('static', filename = 'js/jquery-1.8.3.min.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'highcharts/highcharts.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'highcharts/highcharts-more.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'js/jquery-1.8.3.min.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'highcharts/highcharts.js') }}"></script>
+<!--    <script type="module" src="{{ url_for('static', filename = 'highcharts/Accessibility.js') }}"></script>-->
+    <script  src="{{ url_for('static', filename = 'highcharts/highcharts-3d.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'highcharts/highcharts-more.js') }}"></script>
+    <script  src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script  src="{{ url_for('static', filename = 'highcharts/wordcloud.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'highcharts/dark-unica.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'js/word.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'js/packgebubble.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'js/pie.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'js/cylindrical.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'js/fan.js') }}"></script>
+    <script  src="{{ url_for('static', filename = 'js/order.js') }}"></script>
+    <script  src="{{ url_for('static',filename='js/Line chart.js')}}"></script>
+    <script  src="{{ url_for('static',filename='js/3Dcharts.js')}}"></script>
+<!--    <script src="{{ url_for('static',filename='js/3D.js')}}"></script>-->
+    <!--    <script src="https://code.highcharts.com/highcharts-3d.js"></script>-->
     <!-- <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script> -->
-    <script src="{{ url_for('static', filename = 'highcharts/oldie.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'highcharts/wordcloud.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'highcharts/dark-unica.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'js/word.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'js/packgebubble.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'js/pie.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'js/cylindrical.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'js/fan.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'js/order.js') }}"></script>
+<!--    <script src="{{ url_for('static', filename = 'highcharts/oldie.js') }}"></script>-->
 
 </head>
 <body>
@@ -72,12 +79,22 @@
             </div>
         </div>
     </div>
-    <!-- <div class="footer">
-        <p>Copyright &copy; 公众号 jhzhong share</p>
-    </div> -->
+    <div class="salary">
+        <div id="linechart-container" class="inner_left"></div>
+        <div id="3Dchart-container" class="inner_right"></div>
+    </div>
 </div>
 <script>
-
+    // import accessibility from "../static/highcharts/Accessibility";
+    //
+    // document.addEventListener("DOMContentLoaded", function() {
+    //         // 初始化可访问性功能
+    //         accessibility.init({
+    //             highContrast: true,  // 开启高对比度模式
+    //             textToSpeech: true,  // 启用文本朗读功能
+    //             keyboardNavigation: true  // 启用键盘导航
+    //         });
+    //     });
 </script>
 </body>
 </html>
